@@ -338,3 +338,6 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+/MetallTrainingPlatform/appsettings.Development.json
+/MetallTrainingPlatform/appsettings.Production.json
+/MetallTrainingPlatform/appsettings.DbConnection.json
