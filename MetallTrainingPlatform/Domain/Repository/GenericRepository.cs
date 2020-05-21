@@ -1,4 +1,5 @@
-﻿using MetallTrainingPlatform.Domain.Repository.Interfaces;
+﻿using MetallTrainingPlatform.Data;
+using MetallTrainingPlatform.Domain.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
