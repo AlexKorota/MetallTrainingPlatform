@@ -1,8 +1,17 @@
+using MetallTrainingPlatform.Data;
+using MetallTrainingPlatform.Domain.Entities;
+using MetallTrainingPlatform.Domain.Repository;
+using MetallTrainingPlatform.Domain.Repository.Interfaces;
+using MetallTrainingPlatform.Helpers;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
+using System;
 
 namespace MetallTrainingPlatform
 {
@@ -18,6 +27,27 @@ namespace MetallTrainingPlatform
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc();
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.RequireHttpsMetadata = false;
+                    options.SaveToken = true;
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidIssuer = AuthOptions.ISSUER,
+                        ValidAudience = AuthOptions.AUDIENCE,
+                        IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ClockSkew = TimeSpan.Zero
+                    };
+                });
+            services.AddDbContext<TrainingPortalDbContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("Database"));
+            });
+            services.AddScoped<IGenericRepository<User>, UserRepository>();
             services.AddControllersWithViews();
         }
 
@@ -39,6 +69,7 @@ namespace MetallTrainingPlatform
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
