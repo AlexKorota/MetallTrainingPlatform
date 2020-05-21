@@ -1,3 +1,4 @@
+using AutoMapper;
 using MetallTrainingPlatform.Data;
 using MetallTrainingPlatform.Domain.Entities;
 using MetallTrainingPlatform.Domain.Repository;
@@ -43,6 +44,7 @@ namespace MetallTrainingPlatform
                         ClockSkew = TimeSpan.Zero
                     };
                 });
+            services.AddAutoMapper(typeof(Startup));
             services.AddDbContext<TrainingPortalDbContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("Database"));
