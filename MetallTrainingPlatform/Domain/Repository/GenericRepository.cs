@@ -21,9 +21,7 @@ namespace MetallTrainingPlatform.Domain.Repository
 
         public async Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken cToken = default)
         {
-
             return await _context.Set<TEntity>().AsNoTracking().ToListAsync();
-
         }
 
         public async Task<TEntity> FindByIdAsync(int id, CancellationToken cToken = default)
@@ -38,10 +36,8 @@ namespace MetallTrainingPlatform.Domain.Repository
 
         public async Task CreateAsync(TEntity item, CancellationToken cToken = default)
         {
-
             await _context.Set<TEntity>().AddAsync(item);
             await _context.SaveChangesAsync();
-
         }
 
         public async Task UpdateAsync(TEntity item, CancellationToken cToken = default)
