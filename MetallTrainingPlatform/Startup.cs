@@ -47,7 +47,7 @@ namespace MetallTrainingPlatform
             services.AddAutoMapper(typeof(Startup));
             services.AddDbContext<TrainingPortalDbContext>(options =>
             {
-                options.UseSqlServer(Configuration.GetConnectionString("Database"));
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
             services.AddScoped<IGenericRepository<User>, UserRepository>();
             services.AddControllersWithViews();
